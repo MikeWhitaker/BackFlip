@@ -1,6 +1,6 @@
 # BackFlip
 Flip the windows backslashes on the clipboard when you copy a folder or a file path name.
-##Usage
+## Usage
 * Compile on your machine
 * Add the executatble to your path (optianal)
 * Add a shortcut on your desktop that points to your executable 
