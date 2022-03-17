@@ -1,6 +1,7 @@
-/BackFlip/bin
-/BackFlip/.vs
-/BackFlip/obj
-/BackFlip/packages
-/BackFlip/BackFlipTests/obj/
-/BackFlip/BackFlipTests/bin/
+BackFlip/bin/
+BackFlip/.vs/
+BackFlip/obj/
+BackFlip/packages/
+BackFlipTests/obj/
+BackFlipTests/bin/
+BackFlipTests/.vs/
