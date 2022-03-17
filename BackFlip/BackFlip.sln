@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackFlip", "BackFlip.csproj", "{98EA894B-4969-418B-85E5-81E15701D9B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackFlipTests1", "..\BackFlipTests1\BackFlipTests1.csproj", "{2D1B73F4-CB93-4C01-9D71-035F4719AF1C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackFlipTests", "..\BackFlipTests\BackFlipTests.csproj", "{1E78E28B-7E95-4FB1-9F08-B17C0FC5D116}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{98EA894B-4969-418B-85E5-81E15701D9B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98EA894B-4969-418B-85E5-81E15701D9B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98EA894B-4969-418B-85E5-81E15701D9B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D1B73F4-CB93-4C01-9D71-035F4719AF1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D1B73F4-CB93-4C01-9D71-035F4719AF1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D1B73F4-CB93-4C01-9D71-035F4719AF1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D1B73F4-CB93-4C01-9D71-035F4719AF1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E78E28B-7E95-4FB1-9F08-B17C0FC5D116}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E78E28B-7E95-4FB1-9F08-B17C0FC5D116}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E78E28B-7E95-4FB1-9F08-B17C0FC5D116}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E78E28B-7E95-4FB1-9F08-B17C0FC5D116}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
