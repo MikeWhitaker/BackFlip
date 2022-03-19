@@ -6,4 +6,6 @@ Flip the windows backslashes on the clipboard when you copy a folder or a file p
 * Add a shortcut on your desktop that points to your executable 
   * Add a keyboard shortcut to the shortcut
 
-You can add -f switch when running backflip to replace the path and filename string in the clipboard with just the found filename.
+-f or -file, to replace a path with a filename on the end with just the filename
+-d or -date, to replace current clipboard contense with current (short) date.
+-t or -time, to replate current clipboard constens woth current time.
