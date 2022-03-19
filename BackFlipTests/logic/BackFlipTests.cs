@@ -124,4 +124,43 @@ namespace BackFlip.Tests
             Assert.IsTrue(result);
         }
     }
+
+    [TestClass]
+    public class SetDateSTringOnClipBoard
+    {
+        [TestMethod]
+        public void SetDateStringOnClipboard_SetStringOnClipboard()
+        {
+            // Arrange
+            var sut = new BackFlip();
+
+            // Act
+            sut.SetDateStringOnClipboard();
+
+            // Assert
+            var expected = DateTime.Now.ToShortDateString();
+            var actual = sut.GetClipboardText();
+
+            Assert.AreEqual(expected, actual);
+        }
+    }
+
+    [TestClass]
+    public class SetTimeOnClipboard
+    {
+        [TestMethod]
+        public void SetTimeOnClipboard_SetStringOnClipboard()
+        {
+            // Arrange
+            var sut = new BackFlip();
+
+            // Act
+            sut.SetTimeOnClipboard();
+            var expected = DateTime.Now.ToShortTimeString();
+            var actual = sut.GetClipboardText();
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+    }
 }

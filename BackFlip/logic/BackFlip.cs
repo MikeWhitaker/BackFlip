@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace BackFlip
@@ -59,6 +60,18 @@ namespace BackFlip
             Clipboard.SetText(filenameWithExtention);
 
             return true;
+        }
+
+        public void SetDateStringOnClipboard()
+        {
+            var shortDate = DateTime.Now.ToShortDateString();
+            Clipboard.SetText(shortDate);
+        }
+
+        public void SetTimeOnClipboard()
+        {
+            var shotTime = DateTime.Now.ToShortTimeString();
+            Clipboard.SetText(shotTime);
         }
     }
 }
