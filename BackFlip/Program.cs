@@ -13,28 +13,25 @@ namespace BackFlip
         {
             var bf = new BackFlip();
 
-
-            var firstArgument = args.FirstOrDefault().ToLowerInvariant();
+            var firstArgument = args.FirstOrDefault();
+            if (firstArgument == null)
+                firstArgument = "aSafeDefault";
+            
+            firstArgument.ToLowerInvariant();
 
             switch (firstArgument)
             {
                 case "-f":
-                    bf.ReplaceClipboardContensWithFoundFilename();
-                    break;
                 case "-file":
                     bf.ReplaceClipboardContensWithFoundFilename();
                     break;
                 case "-t":
-                    bf.SetTimeOnClipboard();
-                    break;
                 case "-time":
                     bf.SetTimeOnClipboard();
                     break;
                 case "-date":
-                    bf.SetDateStringOnClipboard();
-                    break;
                 case "-d":
-                bf.SetDateStringOnClipboard();
+                    bf.SetDateStringOnClipboard();
                     break;
                 default:
                     bf.Flip();
