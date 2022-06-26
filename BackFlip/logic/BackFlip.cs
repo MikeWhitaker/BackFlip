@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Configuration;
+using System.Collections.Generic;
 
 namespace BackFlip
 {
@@ -73,5 +75,7 @@ namespace BackFlip
             var shotTime = DateTime.Now.ToShortTimeString();
             Clipboard.SetText(shotTime);
         }
-    }
+
+		
+	}
 }
