@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Configuration;
 using System.Collections.Generic;
+using BackFlip.logic;
 
 namespace BackFlip
 {
@@ -76,6 +77,10 @@ namespace BackFlip
             Clipboard.SetText(shotTime);
         }
 
-		
+		public void SpellCheck()
+		{
+			var sc = new SpellCheck();
+            sc.ExecuteSpellCheck();
+		}
 	}
 }

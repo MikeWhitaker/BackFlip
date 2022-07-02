@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
+using System.Windows.Forms;
 
 namespace BackFlipTests.logic
 {
@@ -76,6 +77,62 @@ namespace BackFlipTests.logic
 				// Assert
 				var containsString = output.ToString().Contains("Exception");
 				Assert.IsTrue(containsString);
+			}
+		}
+
+		[TestClass]
+		public class ExecuteSpellCheckTests
+		{
+			[TestMethod()]
+			public void ExecuteSpellCheck_Default_CallsGetWordListFromFile()
+			{
+				// Arrange
+				var spellChecker = new Mock<SpellCheck>();
+				spellChecker.Setup(s => s.GetWordListFromFile()).Returns(new List<string>());
+				spellChecker.CallBase = true;
+
+				// Act
+				spellChecker.Object.ExecuteSpellCheck();
+
+				// Assert
+				spellChecker.Verify(s => s.GetWordListFromFile(), Times.Once);
+			}
+
+			[TestMethod()]
+			public void ExecuteSpellCheck_Default_CallsCalculateForEachItemInWordList()
+			{
+				// Arrange
+				var spellChecker = new Mock<SpellCheck>();
+				spellChecker.Setup(s => s.GetWordListFromFile()).Returns(new List<string>() { "word1", "word2", "word3" });
+				spellChecker.Setup(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+				spellChecker.CallBase = true;
+
+				// Act
+				spellChecker.Object.ExecuteSpellCheck();
+
+				// Assert
+				spellChecker.Verify(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+			}
+		}
+
+
+		[TestClass]
+		public class GetFirstWordFromClipBoardTests
+		{
+			[TestMethod]
+			public void MyTestMethod()
+			{
+				// Arrange
+				Clipboard.SetText("word1 word2 word3");
+
+				var sut = new SpellCheck(Mock.Of<IFileSystem>());
+
+				//Act
+				var result = sut.GetFirstWordFromClipBoard();
+
+
+				//Assert
+				Assert.AreEqual("word1", result);
 			}
 		}
 	}

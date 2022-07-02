@@ -33,7 +33,11 @@ namespace BackFlip
                 case "-d":
                     bf.SetDateStringOnClipboard();
                     break;
-                default:
+                case "-spellcheck":
+                case "-s":
+					bf.SpellCheck();
+					break;
+				default:
                     bf.Flip();
                     break;
             }
