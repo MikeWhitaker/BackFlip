@@ -63,7 +63,7 @@ namespace BackFlip.logic
 
 			var sortedDictionary = SortLevenshteinDictionary(levenshteinDistanceDict);
 
-			SetTop5ToClipboard(sortedDictionary);
+			SetTop5ToClipboard(sortedDictionary, firstWordFromClipboardText);
 		}
 
 		public virtual Dictionary<string, int> SortLevenshteinDictionary(Dictionary<string, int> levenshteinDistanceDict)
@@ -73,11 +73,16 @@ namespace BackFlip.logic
 			return topFive.ToDictionary(x => x.Key, x => x.Value);
 		}
 
-		public virtual void SetTop5ToClipboard(Dictionary<string, int> sortedDict)
+		public virtual void SetTop5ToClipboard(Dictionary<string, int> sortedDict, string firstWordFromClipboardText)
 		{
 			var sb = new StringBuilder();
 			foreach (var item in sortedDict)
 			{
+				if(item.Key == firstWordFromClipboardText) {
+					sb.AppendLine(item.Key + " <3");
+					continue;
+				}
+				
 				sb.AppendLine(item.Key);
 			}
 			Clipboard.SetText(sb.ToString());
@@ -124,6 +129,11 @@ namespace BackFlip.logic
 			}
 			// return result
 			return matrix[source1Length, source2Length];
+		}
+
+		public void IsExactMatch(string v1, string v2)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

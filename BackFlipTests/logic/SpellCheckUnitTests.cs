@@ -113,6 +113,22 @@ namespace BackFlipTests.logic
 				// Assert
 				spellChecker.Verify(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
 			}
+
+			[TestMethod()]
+			public void ExecuteSpellCheck_Default_CallsIsFirstResultExactMatch()
+			{
+				// Arrange
+				var spellChecker = new Mock<SpellCheck>();
+				spellChecker.Setup(s => s.GetWordListFromFile()).Returns(new List<string>() { "word1", "word2", "word3" });
+				spellChecker.Setup(s => s.IsExactMatch(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+				spellChecker.CallBase = true;
+
+				// Act
+				spellChecker.Object.ExecuteSpellCheck();
+
+				// Assert
+				spellChecker.Verify(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+			}
 		}
 
 
