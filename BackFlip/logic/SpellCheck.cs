@@ -41,9 +41,13 @@ namespace BackFlip.logic
 				var file = fileSystem.File.ReadAllText(filePath);
 				var list = new List<string>();
 				var lines = file.Split('\n');
+
 				foreach (var line in lines)
 				{
-					wordList.Add(line);
+					// if line end with \r remove it
+					var trimmedLine = line.TrimEnd('\r', '\n');
+
+					wordList.Add(trimmedLine);
 				}
 			}
 			catch (Exception e)
