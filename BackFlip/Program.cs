@@ -35,7 +35,10 @@ namespace BackFlip
                     break;
                 case "-spellcheck":
                 case "-s":
-					bf.SpellCheck();
+					bf.SpellCheck(1);
+					break;
+				case "-s2":
+					bf.SpellCheck(2);
 					break;
 				default:
                     bf.Flip();

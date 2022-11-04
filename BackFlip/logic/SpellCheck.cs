@@ -26,9 +26,16 @@ namespace BackFlip.logic
 		{
 		}
 
-		public virtual List<string> GetWordListFromFile()
+		public virtual List<string> GetWordListFromFile(int filenumber)
 		{
-			var filePath = ConfigurationManager.AppSettings["SpellingFile"];
+			var filePath = ConfigurationManager.AppSettings["SpellingFile" + filenumber.ToString()];
+
+			// if the filePath variable is null default to the first file
+			if (filePath == null)
+			{
+				filePath = ConfigurationManager.AppSettings["SpellingFile1"];
+			}
+
 			try
 			{
 				var file = fileSystem.File.ReadAllText(filePath);
@@ -47,10 +54,10 @@ namespace BackFlip.logic
 			return wordList;
 		}
 
-		public void ExecuteSpellCheck()
+		public void ExecuteSpellCheck(int filenumber)
 		{
 			// get the first five with the lowest count levenshtein routine 
-			wordList = GetWordListFromFile();
+			wordList = GetWordListFromFile(filenumber);
 			var firstWordFromClipboardText = GetFirstWordFromClipBoard();
 
 			var levenshteinDistanceDict = new Dictionary<string, int>();
@@ -132,6 +139,16 @@ namespace BackFlip.logic
 		}
 
 		public void IsExactMatch(string v1, string v2)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void ExecuteSpellCheck()
+		{
+			throw new NotImplementedException();
+		}
+
+		public List<string> GetWordListFromFile()
 		{
 			throw new NotImplementedException();
 		}

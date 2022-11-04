@@ -77,10 +77,10 @@ namespace BackFlip
             Clipboard.SetText(shotTime);
         }
 
-		public void SpellCheck()
+		public void SpellCheck(int filenumber)
 		{
 			var sc = new SpellCheck();
-            sc.ExecuteSpellCheck();
+            sc.ExecuteSpellCheck(filenumber);
 		}
 	}
 }
