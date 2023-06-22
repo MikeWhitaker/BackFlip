@@ -2,6 +2,7 @@
 using BackFlip;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -126,7 +127,7 @@ namespace BackFlip.Tests
     }
 
     [TestClass]
-    public class SetDateSTringOnClipBoard
+    public class SetDateStringOnClipBoard
     {
         [TestMethod]
         public void SetDateStringOnClipboard_SetStringOnClipboard()
@@ -157,6 +158,50 @@ namespace BackFlip.Tests
             // Act
             sut.SetTimeOnClipboard();
             var expected = DateTime.Now.ToShortTimeString();
+            var actual = sut.GetClipboardText();
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+    }
+
+    [TestClass]
+    public class SetDateTimeStringOnClipboard
+    {
+        [TestMethod]
+        public void SetDateTimeStringOnClipboard_SetStringOnClipboard()
+        {
+            // Arrange
+            var sut = new BackFlip();
+
+            // Act
+            sut.SetDateTimeStringOnClipboard();
+            var expected = DateTime.Now.ToString();
+            expected = expected.Substring(0, expected.LastIndexOf(':'));
+
+            var actual = sut.GetClipboardText();
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+    }
+
+    [TestClass]
+    public class SetSignatureOnClipboard
+    {
+        [TestMethod]
+        public void SetSignatureOnClipboard_SetStringOnClipboard()
+        {
+            // Arrange
+            var sut = new BackFlip();
+            sut.SetDateTimeStringOnClipboard();
+            var dateAndTime = sut.GetClipboardText();
+
+            ConfigurationManager.AppSettings["Signature"] = "mySignature";
+            var expected = string.Format("mySignature {0}", dateAndTime);
+
+            // Act
+            sut.SetSignatureOnClipboard();
             var actual = sut.GetClipboardText();
 
             // Assert

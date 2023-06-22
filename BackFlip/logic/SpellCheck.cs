@@ -24,17 +24,13 @@ namespace BackFlip.logic
 			fileSystem: new FileSystem() //use default implementation which calls System.IO
 		)
 		{
+			
 		}
 
 		public virtual List<string> GetWordListFromFile(int filenumber)
 		{
-			var filePath = ConfigurationManager.AppSettings["SpellingFile" + filenumber.ToString()];
-
-			// if the filePath variable is null default to the first file
-			if (filePath == null)
-			{
-				filePath = ConfigurationManager.AppSettings["SpellingFile1"];
-			}
+			var filePath = ConfigurationManager.AppSettings["SpellingFile" + filenumber.ToString()] ??
+								ConfigurationManager.AppSettings["SpellingFile1"];
 
 			try
 			{
@@ -149,12 +145,14 @@ namespace BackFlip.logic
 
 		public void ExecuteSpellCheck()
 		{
-			throw new NotImplementedException();
+			// default to the first file
+			this.ExecuteSpellCheck(1);
 		}
 
 		public List<string> GetWordListFromFile()
 		{
-			throw new NotImplementedException();
+			// default to the first file
+			return this.GetWordListFromFile(1);
 		}
 	}
 }

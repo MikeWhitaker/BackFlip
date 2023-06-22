@@ -33,6 +33,10 @@ namespace BackFlip
                 case "-d":
                     bf.SetDateStringOnClipboard();
                     break;
+                case "-datetime":
+                case "-dt":
+                    bf.SetDateTimeStringOnClipboard();
+                    break;
                 case "-spellcheck":
                 case "-s":
 					bf.SpellCheck(1);
@@ -40,6 +44,9 @@ namespace BackFlip
 				case "-s2":
 					bf.SpellCheck(2);
 					break;
+                case "-sig":
+                    bf.SetSignatureOnClipboard();
+                    break;
 				default:
                     bf.Flip();
                     break;

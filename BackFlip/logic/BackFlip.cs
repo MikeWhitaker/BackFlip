@@ -73,14 +73,44 @@ namespace BackFlip
 
         public void SetTimeOnClipboard()
         {
-            var shotTime = DateTime.Now.ToShortTimeString();
-            Clipboard.SetText(shotTime);
+            var shortTime = DateTime.Now.ToShortTimeString();
+            Clipboard.SetText(shortTime);
+        }
+        private static string ShortDateTime()
+        {
+            // get the date and time
+            var shortDate = DateTime.Now.ToShortDateString();
+            var shortTime = DateTime.Now.ToShortTimeString();
+
+            // combine them
+            var shortDateTime = string.Format("{0} {1}", shortDate, shortTime);
+            return shortDateTime;
+        }
+        
+        public void SetDateTimeStringOnClipboard()
+        {
+            var shortDateTime = ShortDateTime();
+
+            // set the clipboard
+            Clipboard.SetText(shortDateTime);
         }
 
-		public void SpellCheck(int filenumber)
+        public void SetSignatureOnClipboard()
+        {
+            var signature = ConfigurationManager.AppSettings["Signature"];
+            // get the short date time
+            var shortDateTime = ShortDateTime();
+            
+            // combine them
+            signature = string.Format("{0} {1}", signature, shortDateTime);
+            
+            Clipboard.SetText(signature);
+        }
+        
+        public void SpellCheck(int filenumber)
 		{
 			var sc = new SpellCheck();
             sc.ExecuteSpellCheck(filenumber);
 		}
-	}
+    }
 }

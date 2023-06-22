@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using System.IO.Abstractions.TestingHelpers;
 using System.Windows.Forms;
 
 namespace BackFlipTests.logic
@@ -43,7 +42,7 @@ namespace BackFlipTests.logic
 				var spellcheck = new SpellCheck(fileSystem);
 
 				// Act
-				var result = spellcheck.GetWordListFromFile();
+				var result = spellcheck.GetWordListFromFile(3);
 
 				// Assert
 				Mock.Get(file).Verify(f => f.ReadAllText(It.IsAny<string>()), Times.Once);
@@ -69,14 +68,12 @@ namespace BackFlipTests.logic
 				{
 					var result = spellcheck.GetWordListFromFile();	
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
-					throw e;
+					// Assert
+					var containsString = output.ToString().Contains("Exception");
+					Assert.IsTrue(containsString);
 				}
-
-				// Assert
-				var containsString = output.ToString().Contains("Exception");
-				Assert.IsTrue(containsString);
 			}
 		}
 
@@ -103,7 +100,7 @@ namespace BackFlipTests.logic
 			{
 				// Arrange
 				var spellChecker = new Mock<SpellCheck>();
-				spellChecker.Setup(s => s.GetWordListFromFile()).Returns(new List<string>() { "word1", "word2", "word3" });
+				spellChecker.Setup(s => s.GetWordListFromFile(It.IsAny<int>())).Returns(new List<string>() { "word1", "word2", "word3" });
 				spellChecker.Setup(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
 				spellChecker.CallBase = true;
 
@@ -145,7 +142,6 @@ namespace BackFlipTests.logic
 
 				//Act
 				var result = sut.GetFirstWordFromClipBoard();
-
 
 				//Assert
 				Assert.AreEqual("word1", result);
