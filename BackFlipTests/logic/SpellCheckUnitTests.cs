@@ -37,7 +37,6 @@ namespace BackFlipTests.logic
 
 				Mock.Get(fileSystem).SetupGet(p => p.File).Returns(file);
 				Mock.Get(file).Setup(f => f.ReadAllText(It.IsAny<string>())).Returns("word1\nword2\nword3");
-
 				
 				var spellcheck = new SpellCheck(fileSystem);
 

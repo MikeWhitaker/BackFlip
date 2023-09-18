@@ -16,11 +16,15 @@ namespace BackFlip
             var firstArgument = args.FirstOrDefault();
             if (firstArgument == null)
                 firstArgument = "aSafeDefault";
-            
+
             firstArgument.ToLowerInvariant();
 
             switch (firstArgument)
             {
+                case "-h":
+                case "-help":
+                    bf.ShowHelp();
+                    break;  
                 case "-f":
                 case "-file":
                     bf.ReplaceClipboardContensWithFoundFilename();
@@ -39,15 +43,15 @@ namespace BackFlip
                     break;
                 case "-spellcheck":
                 case "-s":
-					bf.SpellCheck(1);
-					break;
-				case "-s2":
-					bf.SpellCheck(2);
-					break;
+                    bf.SpellCheck(1);
+                    break;
+                case "-s2":
+                    bf.SpellCheck(2);
+                    break;
                 case "-sig":
                     bf.SetSignatureOnClipboard();
                     break;
-				default:
+                default:
                     bf.Flip();
                     break;
             }

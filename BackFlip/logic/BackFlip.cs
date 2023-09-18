@@ -20,10 +20,16 @@ namespace BackFlip
 
         public bool Flip()
         {
+            // Check if the clipboard contains a backslash
             var clipboardText = Clipboard.GetText();
 
             if (!clipboardText.Contains("\\"))
+            {
+                // If not, run the help method
+                ShowHelp();
+                
                 return false;
+            }
 
             clipboardText = clipboardText.Replace('\\', '/');
             Clipboard.SetText(clipboardText); // This means that the test would have to access the clipboard.
@@ -112,5 +118,20 @@ namespace BackFlip
 			var sc = new SpellCheck();
             sc.ExecuteSpellCheck(filenumber);
 		}
+
+        public void ShowHelp()
+        {
+            // Write the help text to the console
+            Console.WriteLine("BackFlip:");
+            Console.WriteLine("  -h, -help: Show this help text");
+            Console.WriteLine("  -f, -file: Replace the clipboard contents with the filename found in the clipboard contents");
+            Console.WriteLine("  -t, -time: Replace the clipboard contents with the current time");
+            Console.WriteLine("  -d, -date: Replace the clipboard contents with the current date");
+            Console.WriteLine("  -dt, -datetime: Replace the clipboard contents with the current date and time");
+            Console.WriteLine("  -sig: Replace the clipboard contents with the signature found in the app.config file");
+            Console.WriteLine("  -s, -spellcheck: Spellcheck the clipboard contents using the first spelling file");
+            Console.WriteLine("  -s2: Spellcheck the clipboard contents using the second spelling file");
+            Console.WriteLine("  If no arguments are given, the clipboard contents will be flipped from \\ to /");
+        }
     }
 }
