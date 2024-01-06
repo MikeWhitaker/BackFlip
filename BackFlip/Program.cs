@@ -51,6 +51,10 @@ namespace BackFlip
                 case "-sig":
                     bf.SetSignatureOnClipboard();
                     break;
+                case "-replace":
+                case "-r":
+                    bf.ReplaceClipboardContents();
+                    break;
                 default:
                     bf.Flip();
                     break;

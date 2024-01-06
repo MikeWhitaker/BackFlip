@@ -11,10 +11,16 @@ namespace BackFlip
     {
         public BackFlip()
         {
-           
         }
+
         public BackFlip(string clipboardText)
         {
+            if (clipboardText == String.Empty)
+            {
+                Clipboard.Clear();
+                return;
+            }
+            
             Clipboard.SetText(clipboardText);
         }
 
@@ -27,7 +33,7 @@ namespace BackFlip
             {
                 // If not, run the help method
                 ShowHelp();
-                
+
                 return false;
             }
 
@@ -37,7 +43,9 @@ namespace BackFlip
             return true;
         }
 
-        public string GetClipboardText() { // Mainly for the tests.
+        public string GetClipboardText()
+        {
+            // Mainly for the tests.
             return Clipboard.GetText();
         }
 
@@ -58,7 +66,8 @@ namespace BackFlip
             if (matchWindows.Success)
             {
                 match = matchWindows;
-            } else
+            }
+            else
             {
                 match = matchLinux;
             }
@@ -82,6 +91,7 @@ namespace BackFlip
             var shortTime = DateTime.Now.ToShortTimeString();
             Clipboard.SetText(shortTime);
         }
+
         private static string ShortDateTime()
         {
             // get the date and time
@@ -92,7 +102,7 @@ namespace BackFlip
             var shortDateTime = string.Format("{0} {1}", shortDate, shortTime);
             return shortDateTime;
         }
-        
+
         public void SetDateTimeStringOnClipboard()
         {
             var shortDateTime = ShortDateTime();
@@ -106,28 +116,49 @@ namespace BackFlip
             var signature = ConfigurationManager.AppSettings["Signature"];
             // get the short date time
             var shortDateTime = ShortDateTime();
-            
+
             // combine them
             signature = string.Format("{0} {1}", signature, shortDateTime);
-            
+
             Clipboard.SetText(signature);
         }
-        
+
         public void SpellCheck(int filenumber)
-		{
-			var sc = new SpellCheck();
+        {
+            var sc = new SpellCheck();
             sc.ExecuteSpellCheck(filenumber);
-		}
+        }
+
+        public void ReplaceClipboardContents()
+        {
+            // get the clipboard contents
+            var clipboardText = Clipboard.GetText();
+
+            // get the string to find
+            var find = ConfigurationManager.AppSettings["defaultFindString"];
+
+            // get the string to replace it with
+            var replace = ConfigurationManager.AppSettings["defaultReplaceString"];
+
+            // replace the string in the clipboard contents
+            clipboardText = clipboardText.Replace(find, replace);
+
+            // set the clipboard
+            if(clipboardText != String.Empty)
+                Clipboard.SetText(clipboardText);
+        }
 
         public void ShowHelp()
         {
             // Write the help text to the console
             Console.WriteLine("BackFlip:");
             Console.WriteLine("  -h, -help: Show this help text");
-            Console.WriteLine("  -f, -file: Replace the clipboard contents with the filename found in the clipboard contents");
+            Console.WriteLine(
+                "  -f, -file: Replace the clipboard contents with the filename found in the clipboard contents");
             Console.WriteLine("  -t, -time: Replace the clipboard contents with the current time");
             Console.WriteLine("  -d, -date: Replace the clipboard contents with the current date");
             Console.WriteLine("  -dt, -datetime: Replace the clipboard contents with the current date and time");
+            Console.WriteLine("  -r, -replace: Replace the clipboard contents default find string with the configured replace string");
             Console.WriteLine("  -sig: Replace the clipboard contents with the signature found in the app.config file");
             Console.WriteLine("  -s, -spellcheck: Spellcheck the clipboard contents using the first spelling file");
             Console.WriteLine("  -s2: Spellcheck the clipboard contents using the second spelling file");

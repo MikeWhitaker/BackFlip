@@ -208,4 +208,79 @@ namespace BackFlip.Tests
             Assert.AreEqual(expected, actual);
         }
     }
+
+    [TestClass]
+    public class ReplaceClipboardContents
+    {
+        [TestMethod]
+        public void ReplaceClipboardContents_ReplacesDefaultFindStringWithDefaultReplaceString()
+        {
+            // Arrange
+            var originalText = "This is a string containing the , defaultFindString";
+            var sut = new BackFlip(originalText);
+            ConfigurationManager.AppSettings["defaultFindSting"] = ",";
+            ConfigurationManager.AppSettings["defaultReplaceString"] = ".";
+
+            // Act
+            sut.ReplaceClipboardContents();
+
+            // Assert
+            var expectedText = "This is a string containing the . defaultFindString";
+            var actualText = sut.GetClipboardText();
+            Assert.AreEqual(expectedText, actualText);
+        }
+
+        [TestMethod]
+        public void ReplaceClipboardContents_ReplacesNumberContainingSearchtextWithDefaultReplaceString()
+        {
+            // Arrange
+            var originalText = "19,98";
+            var sut = new BackFlip(originalText);
+            ConfigurationManager.AppSettings["defaultFindSting"] = ",";
+            ConfigurationManager.AppSettings["defaultReplaceString"] = ".";
+
+            // Act
+            sut.ReplaceClipboardContents();
+
+            // Assert
+            var expectedText = "19.98";
+            var actualText = sut.GetClipboardText();
+            Assert.AreEqual(expectedText, actualText);
+        }
+        
+        [TestMethod]
+        public void ReplaceClipboardContents_WhenClipboardDoesNotContainDefaultFindString_ClipboardRemainsUnchanged()
+        {
+            // Arrange
+            var originalText = "This is a string not containing the defaultFindString";
+            var sut = new BackFlip(originalText);
+            ConfigurationManager.AppSettings["defaultFindSting"] = ",";
+            ConfigurationManager.AppSettings["defaultReplaceString"] = ".";
+
+            // Act
+            sut.ReplaceClipboardContents();
+
+            // Assert
+            var actualText = sut.GetClipboardText();
+            Assert.AreEqual(originalText, actualText);
+        }
+
+        [TestMethod]
+        public void ReplaceClipboardContents_WhenClipboardIsEmpty_ClipboardRemainsEmpty()
+        {
+            // Arrange
+            var originalText = "";
+            var sut = new BackFlip(originalText);
+            ConfigurationManager.AppSettings["defaultFindSting"] = ",";
+            ConfigurationManager.AppSettings["defaultReplaceString"] = ".";
+
+            // Act
+            sut.ReplaceClipboardContents();
+
+            // Assert
+            var actualText = sut.GetClipboardText();
+            Assert.AreEqual(originalText, actualText);
+        }
+    }
+    
 }
