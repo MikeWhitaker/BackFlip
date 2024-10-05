@@ -46,6 +46,7 @@ namespace BackFlip
                     bf.SpellCheck(1);
                     break;
                 case "-s2":
+                case "-se":
                     bf.SpellCheck(2);
                     break;
                 case "-sig":

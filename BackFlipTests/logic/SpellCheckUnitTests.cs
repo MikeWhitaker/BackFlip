@@ -9,142 +9,145 @@ using System.Windows.Forms;
 
 namespace BackFlipTests.logic
 {
-	public abstract class SpellCheckTests
-	{
-		[TestClass]
-		public class SpellCheck_constructor
-		{
-			[TestMethod]
-			public void SpellCheck_Constructs()
-			{
-				// Arrange
-				var mockFileSystem = Mock.Of<IFileSystem>();
+    public abstract class SpellCheckTests
+    {
+        [TestClass]
+        public class SpellCheck_constructor
+        {
+            [TestMethod]
+            public void SpellCheck_Constructs()
+            {
+                // Arrange
+                var mockFileSystem = Mock.Of<IFileSystem>();
 
-				// Act & Assert
-				var spellcheck = new SpellCheck(mockFileSystem); // Does not throw so the test succeeds.
-			}
-		}
+                // Act & Assert
+                var spellcheck = new SpellCheck(mockFileSystem); // Does not throw so the test succeeds.
+            }
+        }
 
-		[TestClass]
-		public class GetWordListFromFileMethod
-		{
-			[TestMethod]
-			public void GetWordListFromFile_Default_ReturnsWordList()
-			{
-				// Arrange
-				var file = Mock.Of<IFile>();
-				var fileSystem = Mock.Of<IFileSystem>();
+        [TestClass]
+        public class GetWordListFromFileMethod
+        {
+            [TestMethod]
+            public void GetWordListFromFile_Default_ReturnsWordList()
+            {
+                // Arrange
+                var file = Mock.Of<IFile>();
+                var fileSystem = Mock.Of<IFileSystem>();
 
-				Mock.Get(fileSystem).SetupGet(p => p.File).Returns(file);
-				Mock.Get(file).Setup(f => f.ReadAllText(It.IsAny<string>())).Returns("word1\nword2\nword3");
-				
-				var spellcheck = new SpellCheck(fileSystem);
+                Mock.Get(fileSystem).SetupGet(p => p.File).Returns(file);
+                Mock.Get(file).Setup(f => f.ReadAllText(It.IsAny<string>())).Returns("word1\nword2\nword3");
 
-				// Act
-				var result = spellcheck.GetWordListFromFile(3);
+                var spellcheck = new SpellCheck(fileSystem);
 
-				// Assert
-				Mock.Get(file).Verify(f => f.ReadAllText(It.IsAny<string>()), Times.Once);
-				Assert.AreEqual(3, result.Count);
-			}
+                // Act
+                var result = spellcheck.GetWordListFromFile(3);
 
-			[TestMethod]
-			public void GetWordListFromFile_ReadAllTextThrows_ErrorIsWrittenToConsole()
-			{
-				// Arrange
-				var file = Mock.Of<IFile>();
-				var fileSystem = Mock.Of<IFileSystem>();
+                // Assert
+                Mock.Get(file).Verify(f => f.ReadAllText(It.IsAny<string>()), Times.Once);
+                Assert.AreEqual(3, result.Count);
+            }
 
-				Mock.Get(fileSystem).SetupGet(p => p.File).Returns(file);
-				Mock.Get(file).Setup(f => f.ReadAllText(It.IsAny<string>())).Throws<Exception>();
-				var spellcheck = new SpellCheck(fileSystem);
+            [TestMethod]
+            public void GetWordListFromFile_ReadAllTextThrows_ErrorIsWrittenToConsole()
+            {
+                // Arrange
+                var file = Mock.Of<IFile>();
+                var fileSystem = Mock.Of<IFileSystem>();
 
-				var output = new StringWriter();
-				Console.SetOut(output); // Redirect console output to a string writer.
+                Mock.Get(fileSystem).SetupGet(p => p.File).Returns(file);
+                Mock.Get(file).Setup(f => f.ReadAllText(It.IsAny<string>())).Throws<Exception>();
+                var spellcheck = new SpellCheck(fileSystem);
 
-				// Act
-				try
-				{
-					var result = spellcheck.GetWordListFromFile();	
-				}
-				catch (Exception)
-				{
-					// Assert
-					var containsString = output.ToString().Contains("Exception");
-					Assert.IsTrue(containsString);
-				}
-			}
-		}
+                var output = new StringWriter();
+                Console.SetOut(output); // Redirect console output to a string writer.
 
-		[TestClass]
-		public class ExecuteSpellCheckTests
-		{
-			[TestMethod()]
-			public void ExecuteSpellCheck_Default_CallsGetWordListFromFile()
-			{
-				// Arrange
-				var spellChecker = new Mock<SpellCheck>();
-				spellChecker.Setup(s => s.GetWordListFromFile()).Returns(new List<string>());
-				spellChecker.CallBase = true;
+                // Act
+                try
+                {
+                    var result = spellcheck.GetWordListFromFile();
+                }
+                catch (Exception)
+                {
+                    // Assert
+                    var containsString = output.ToString().Contains("Exception");
+                    Assert.IsTrue(containsString);
+                }
+            }
+        }
 
-				// Act
-				spellChecker.Object.ExecuteSpellCheck();
+        [TestClass]
+        public class ExecuteSpellCheckTests
+        {
+            [TestMethod()]
+            public void ExecuteSpellCheck_Default_CallsGetWordListFromFile()
+            {
+                // Arrange
+                var spellChecker = new Mock<SpellCheck>();
+                spellChecker.Setup(s => s.GetWordListFromFile()).Returns(new List<string>());
+                spellChecker.CallBase = true;
 
-				// Assert
-				spellChecker.Verify(s => s.GetWordListFromFile(), Times.Once);
-			}
+                // Act
+                spellChecker.Object.ExecuteSpellCheck();
 
-			[TestMethod()]
-			public void ExecuteSpellCheck_Default_CallsCalculateForEachItemInWordList()
-			{
-				// Arrange
-				var spellChecker = new Mock<SpellCheck>();
-				spellChecker.Setup(s => s.GetWordListFromFile(It.IsAny<int>())).Returns(new List<string>() { "word1", "word2", "word3" });
-				spellChecker.Setup(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
-				spellChecker.CallBase = true;
+                // Assert
+                spellChecker.Verify(s => s.GetWordListFromFile(), Times.Once);
+            }
 
-				// Act
-				spellChecker.Object.ExecuteSpellCheck();
+            [TestMethod()]
+            public void ExecuteSpellCheck_Default_CallsCalculateForEachItemInWordList()
+            {
+                // Arrange
+                var spellChecker = new Mock<SpellCheck>();
+                spellChecker.Setup(s => s.GetWordListFromFile(It.IsAny<int>()))
+                    .Returns(new List<string>() { "word1", "word2", "word3" });
+                spellChecker.Setup(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+                spellChecker.CallBase = true;
 
-				// Assert
-				spellChecker.Verify(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
-			}
+                // Act
+                spellChecker.Object.ExecuteSpellCheck();
 
-			[TestMethod()]
-			public void ExecuteSpellCheck_Default_CallsIsFirstResultExactMatch()
-			{
-				// Arrange
-				var spellChecker = new Mock<SpellCheck>();
-				spellChecker.Setup(s => s.GetWordListFromFile()).Returns(new List<string>() { "word1", "word2", "word3" });
-				spellChecker.Setup(s => s.IsExactMatch(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
-				spellChecker.CallBase = true;
+                // Assert
+                spellChecker.Verify(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+            }
 
-				// Act
-				spellChecker.Object.ExecuteSpellCheck();
+            [TestMethod()]
+            public void ExecuteSpellCheck_Default_CallsIsFirstResultExactMatch()
+            {
+                // Arrange
+                var spellChecker = new Mock<SpellCheck>();
+                spellChecker.Setup(s => s.GetWordListFromFile())
+                    .Returns(new List<string>() { "word1", "word2", "word3" });
+                spellChecker.Setup(s => s.IsExactMatch(It.IsAny<string>(), It.IsAny<string>())).Verifiable();
+                spellChecker.CallBase = true;
 
-				// Assert
-				spellChecker.Verify(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
-			}
-		}
+                // Act
+                spellChecker.Object.ExecuteSpellCheck();
 
+                // Assert
+                spellChecker.Verify(s => s.Calculate(It.IsAny<string>(), It.IsAny<string>()), Times.Exactly(3));
+            }
+        }
 
-		[TestClass]
-		public class GetFirstWordFromClipBoardTests
-		{
-			[TestMethod]
-			public void MyTestMethod()
-			{
-				// Arrange
-				Clipboard.SetText("word1 word2 word3");
+        
 
-				var sut = new SpellCheck(Mock.Of<IFileSystem>());
+        [TestClass]
+        public class GetFirstWordFromClipBoardTests
+        {
+            [TestMethod]
+            public void MyTestMethod()
+            {
+                // Arrange
+                Clipboard.SetText("word1 word2 word3");
 
-				//Act
-				var result = sut.GetFirstWordFromClipBoard();
+                var sut = new SpellCheck(Mock.Of<IFileSystem>());
 
-				//Assert
-				Assert.AreEqual("word1", result);
-			}
-		}
-	}
+                //Act
+                var result = sut.GetFirstWordFromClipBoard();
+
+                //Assert
+                Assert.AreEqual("word1", result);
+            }
+        }
+    }
 }

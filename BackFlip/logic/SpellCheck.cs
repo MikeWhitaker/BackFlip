@@ -86,11 +86,11 @@ namespace BackFlip.logic
 			foreach (var item in sortedDict)
 			{
 				if(item.Key == firstWordFromClipboardText) {
-					sb.AppendLine(item.Key + " <3");
+					sb.Append(item.Key + " <3 ; ");
 					continue;
 				}
 				
-				sb.AppendLine(item.Key);
+				sb.Append(item.Key + "; ");
 			}
 			Clipboard.SetText(sb.ToString());
 		}

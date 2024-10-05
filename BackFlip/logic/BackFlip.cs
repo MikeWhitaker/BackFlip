@@ -161,7 +161,7 @@ namespace BackFlip
             Console.WriteLine("  -r, -replace: Replace the clipboard contents default find string with the configured replace string");
             Console.WriteLine("  -sig: Replace the clipboard contents with the signature found in the app.config file");
             Console.WriteLine("  -s, -spellcheck: Spellcheck the clipboard contents using the first spelling file");
-            Console.WriteLine("  -s2: Spellcheck the clipboard contents using the second spelling file");
+            Console.WriteLine("  -s2 | -se: Spellcheck the clipboard contents using the second spelling file");
             Console.WriteLine("  If no arguments are given, the clipboard contents will be flipped from \\ to /");
         }
     }
